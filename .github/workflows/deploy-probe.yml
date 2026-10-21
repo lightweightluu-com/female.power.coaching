@@ -1,0 +1,90 @@
+name: Deploy-Probe
+
+# Baut die App und deployt sie als Cloudflare Worker (Static Assets)
+# auf <repo-name>.lightweightluu.com. DNS und Zertifikat legt Cloudflare
+# beim ersten Deploy automatisch an (Custom Domain).
+#
+# Benötigte Secrets (in der Org lightweightluu-com für alle Repos gesetzt):
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+
+on:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/deploy-probe.yml']
+
+concurrency:
+  group: deploy-probe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Abhängigkeiten installieren
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      - name: Build
+        run: npm run build
+
+      - name: Subdomain aus Repo-Namen ableiten
+        id: name
+        run: |
+          NAME=$(echo "${{ github.event.repository.name }}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -e 's/[^a-z0-9-]/-/g' -e 's/--*/-/g' -e 's/^-//' -e 's/-$//' \
+            | cut -c1-63)
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "Deploy-Ziel: https://$NAME.lightweightluu.com"
+
+      # Erfahrungsberichte: Worker + Workers KV (gratis, keine Zahlungsmethode nötig).
+      # Der Namespace wird gesucht oder einmalig angelegt.
+      - name: KV-Namespace sicherstellen
+        id: kv
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACC: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          NAME="${{ steps.name.outputs.name }}-data"
+          API="https://api.cloudflare.com/client/v4/accounts/$ACC/storage/kv/namespaces"
+          ID=$(curl -sS -H "Authorization: Bearer $TOKEN" "$API?per_page=100" | jq -r --arg n "$NAME" '.result[]? | select(.title==$n) | .id' | head -n1)
+          if [ -z "$ID" ]; then
+            ID=$(curl -sS -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d "$(jq -nc --arg t "$NAME" '{title:$t}')" "$API" | jq -r '.result.id // empty')
+          fi
+          if [ -z "$ID" ]; then echo "::error::KV-Namespace konnte nicht gefunden oder angelegt werden"; exit 1; fi
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+
+      # ADMIN_HASH ist der SHA-256 des Admin-Passworts (kein Klartext). Ändern: siehe README.
+      - name: Wrangler-Config erzeugen
+        run: |
+          cat > wrangler.jsonc <<EOF
+          {
+            "name": "${{ steps.name.outputs.name }}",
+            "main": "worker/index.ts",
+            "compatibility_date": "2026-09-01",
+            "assets": {
+              "directory": "./dist",
+              "binding": "ASSETS",
+              "not_found_handling": "single-page-application",
+              "run_worker_first": ["/api/*", "/img/*"]
+            },
+            "kv_namespaces": [
+              { "binding": "DB", "id": "${{ steps.kv.outputs.id }}" }
+            ],
+            "vars": { "ADMIN_HASH": "fa5ee6837bcd268707e72f1823024fc367cd5fd771ac86de1f1fc4efd20bb6bc" },
+            "routes": [
+              { "pattern": "${{ steps.name.outputs.name }}.lightweightluu.com", "custom_domain": true }
+            ]
+          }
+          EOF
+
+      - name: Trockenlauf (kein Deploy)
+        run: |
+          npx --yes wrangler@4 deploy --dry-run --outdir /tmp/wr-out
+          ls -la /tmp/wr-out

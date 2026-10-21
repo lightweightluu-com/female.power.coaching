@@ -43,16 +43,41 @@ jobs:
           echo "name=$NAME" >> "$GITHUB_OUTPUT"
           echo "Deploy-Ziel: https://$NAME.lightweightluu.com"
 
+      # Erfahrungsberichte: Worker + Workers KV (gratis, keine Zahlungsmethode nötig).
+      # Der Namespace wird gesucht oder einmalig angelegt.
+      - name: KV-Namespace sicherstellen
+        id: kv
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACC: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          NAME="${{ steps.name.outputs.name }}-data"
+          API="https://api.cloudflare.com/client/v4/accounts/$ACC/storage/kv/namespaces"
+          ID=$(curl -sS -H "Authorization: Bearer $TOKEN" "$API?per_page=100" | jq -r --arg n "$NAME" '.result[]? | select(.title==$n) | .id' | head -n1)
+          if [ -z "$ID" ]; then
+            ID=$(curl -sS -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d "$(jq -nc --arg t "$NAME" '{title:$t}')" "$API" | jq -r '.result.id // empty')
+          fi
+          if [ -z "$ID" ]; then echo "::error::KV-Namespace konnte nicht gefunden oder angelegt werden"; exit 1; fi
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+
+      # ADMIN_HASH ist der SHA-256 des Admin-Passworts (kein Klartext). Ändern: siehe README.
       - name: Wrangler-Config erzeugen
         run: |
           cat > wrangler.jsonc <<EOF
           {
             "name": "${{ steps.name.outputs.name }}",
+            "main": "worker/index.ts",
             "compatibility_date": "2026-09-01",
             "assets": {
               "directory": "./dist",
-              "not_found_handling": "single-page-application"
+              "binding": "ASSETS",
+              "not_found_handling": "single-page-application",
+              "run_worker_first": ["/api/*", "/img/*"]
             },
+            "kv_namespaces": [
+              { "binding": "DB", "id": "${{ steps.kv.outputs.id }}" }
+            ],
+            "vars": { "ADMIN_HASH": "fa5ee6837bcd268707e72f1823024fc367cd5fd771ac86de1f1fc4efd20bb6bc" },
             "routes": [
               { "pattern": "${{ steps.name.outputs.name }}.lightweightluu.com", "custom_domain": true }
             ]

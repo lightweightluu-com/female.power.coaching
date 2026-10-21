@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && tsc --noEmit -p worker/tsconfig.json && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261021.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
