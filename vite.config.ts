@@ -11,6 +11,8 @@ const THEME_COLOR = '#2b1317';
 const BACKGROUND_COLOR = '#fbebe7';
 
 export default defineConfig({
+  // Lokale Entwicklung: API und Bilder kommen vom Worker (wrangler dev, Port 8787).
+  server: { proxy: { '/api': 'http://localhost:8787', '/img': 'http://localhost:8787' } },
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   plugins: [
     react(),
@@ -35,6 +37,7 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api\//, /^\/img\//],
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff2}']
       }
     })

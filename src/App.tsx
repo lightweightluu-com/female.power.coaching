@@ -7,6 +7,7 @@ import { PainPoints } from '@/components/PainPoints';
 import { Pillars } from '@/components/Pillars';
 import { About } from '@/components/About';
 import { Proof } from '@/components/Proof';
+import { Testimonials } from '@/components/Testimonials';
 import { Steps } from '@/components/Steps';
 import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
@@ -31,6 +32,7 @@ export default function App() {
         <Pillars />
         <About />
         <Proof />
+        <Testimonials />
         <Steps />
         <Faq />
         <FinalCta />
