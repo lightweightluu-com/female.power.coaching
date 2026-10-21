@@ -33,7 +33,10 @@ export function Footer() {
   return (
     <footer className="border-t border-line px-5 pb-28 pt-10 md:pb-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-        <p>© {new Date().getFullYear()} Ronja – Female Power Coaching</p>
+        <p className="flex items-center gap-2.5">
+          <img src="/images/logo.webp" alt="" width={28} height={28} loading="lazy" className="size-7 rounded-lg" />
+          © {new Date().getFullYear()} Ronja – Female Power Coaching
+        </p>
         <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
           {legal.map((l) => (
             <li key={l.key}>

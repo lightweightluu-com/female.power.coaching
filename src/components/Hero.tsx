@@ -22,7 +22,7 @@ function Headline() {
   return (
     <h1 className="font-display text-[2.5rem] font-semibold leading-[1.05] tracking-tight sm:text-6xl">
       {lines.map((l) => (
-        <span key={l.words[0]} className={l.italic ? 'block italic' : 'block'}>
+        <span key={l.words[0]} className={l.italic ? 'block font-script text-[1.5em] font-normal leading-[0.95] tracking-normal' : 'block'}>
           {l.words.map((w) => (
             <span key={w} className="mr-[0.25em] inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em]">
               <motion.span
@@ -75,7 +75,7 @@ export function Hero() {
       <motion.p
         aria-hidden
         style={{ y: wordY }}
-        className="pointer-events-none absolute -right-[3%] top-[20%] -z-20 select-none font-display text-[clamp(7.5rem,23vw,21rem)] font-semibold italic leading-none tracking-tighter text-[#fbebe7]/30 sm:top-[8%]"
+        className="pointer-events-none absolute -right-[3%] top-[20%] -z-20 select-none font-script text-[clamp(8rem,26vw,24rem)] font-normal leading-none text-[#fbebe7]/30 sm:top-[8%]"
       >
         Power
       </motion.p>
