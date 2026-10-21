@@ -1,7 +1,6 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/fraunces/full.css';
-@import '@fontsource-variable/fraunces/full-italic.css';
-@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource/imperial-script/400.css';
 
 :root {
   --bg: #fbebe7;
@@ -27,8 +26,10 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --font-display: 'Fraunces Variable', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  /* Schriften nach dem Logo: Schreibschrift (Amoresa-Ersatz) und geometrische Sans (Codec-Pro-Ersatz) */
+  --font-script: 'Imperial Script', 'Snell Roundhand', cursive;
+  --font-display: 'DM Sans Variable', system-ui, sans-serif;
+  --font-sans: 'DM Sans Variable', system-ui, sans-serif;
 }
 
 html {

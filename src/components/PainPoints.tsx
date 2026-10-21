@@ -78,7 +78,7 @@ export function PainPoints() {
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Kennst du das auch?</p>
           <h2 id="pain-title" className="mt-3 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-balance sm:text-5xl">
-            Jahrelang gekämpft – und trotzdem <span className="italic">nicht da</span>, wo du hinwolltest.
+            Jahrelang gekämpft – und trotzdem <span className="font-script text-[1.4em] font-normal leading-none">nicht da</span>, wo du hinwolltest.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted">
             Ronja kennt dieses Gefühl aus eigener Erfahrung: Sie war selbst von ihren PMOS-Symptomen gesteuert
