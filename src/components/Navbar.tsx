@@ -17,12 +17,12 @@ export function Navbar() {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-40 pt-[env(safe-area-inset-top)] transition-all duration-300',
-        scrolled ? 'border-b border-line bg-bg/85 text-ink backdrop-blur-xl' : 'bg-transparent text-[#1c1410]'
+        scrolled ? 'border-b border-line bg-bg/85 text-ink backdrop-blur-xl' : 'bg-transparent text-[#2b1317]'
       )}
     >
       <nav aria-label="Hauptnavigation" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
         <a href="#top" className="font-display text-lg font-semibold tracking-tight">
-          Female <span className="italic text-accent">Power</span> Coaching
+          Female <span className="italic">Power</span> Coaching
         </a>
         <div className="flex items-center gap-6">
           <Button asChild size="sm" className="hidden min-h-11 sm:inline-flex">

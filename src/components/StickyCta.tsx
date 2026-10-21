@@ -29,7 +29,7 @@ export function StickyCta() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Kostenlosen Clarity Call buchen"
-            className="flex h-14 items-center justify-center gap-2 rounded-full bg-accent text-base font-semibold text-on-accent shadow-[0_14px_40px_-8px_rgba(0,0,0,0.45)] active:scale-[0.98]"
+            className="flex h-14 items-center justify-center gap-2 rounded-full bg-ink text-base font-semibold text-bg shadow-[0_14px_40px_-8px_rgba(0,0,0,0.45)] active:scale-[0.98]"
           >
             <CalendarHeart className="size-5" aria-hidden />
             Clarity Call buchen · unverbindlich

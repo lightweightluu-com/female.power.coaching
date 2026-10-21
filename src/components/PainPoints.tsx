@@ -30,9 +30,9 @@ export function PainPoints() {
     <section id="kennst-du-das" aria-labelledby="pain-title" className="px-5 py-20 sm:py-28">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">Kennst du das auch?</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Kennst du das auch?</p>
           <h2 id="pain-title" className="mt-3 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-balance sm:text-5xl">
-            Jahrelang gekämpft – und trotzdem <span className="marker italic">nicht da</span>, wo du hinwolltest.
+            Jahrelang gekämpft – und trotzdem <span className="italic">nicht da</span>, wo du hinwolltest.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted">
             Ronja kennt dieses Gefühl aus eigener Erfahrung: Sie war selbst von ihren PMOS-Symptomen gesteuert
@@ -44,7 +44,7 @@ export function PainPoints() {
           {pains.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.05}>
               <li className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-line py-7 sm:grid-cols-[3.5rem_1fr] sm:py-9">
-                <span aria-hidden className="font-display text-2xl tabular-nums text-accent sm:text-3xl">
+                <span aria-hidden className="font-display text-2xl tabular-nums text-muted sm:text-3xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
@@ -57,14 +57,14 @@ export function PainPoints() {
         </ol>
 
         <Reveal className="lg:col-span-2">
-          <div className="relative overflow-hidden rounded-3xl bg-[#1c1410] p-8 text-[#faf5ee] sm:p-12">
+          <div className="relative overflow-hidden rounded-3xl bg-ink p-8 text-bg sm:p-12">
             <div className="grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-lime">Die gute Nachricht</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-bg/70">Die gute Nachricht</p>
                 <h3 className="mt-3 font-display text-3xl font-semibold leading-tight text-balance sm:text-4xl">
                   Er arbeitet nicht gegen dich – er braucht nur den richtigen Treibstoff.
                 </h3>
-                <p className="mt-4 max-w-xl text-[#faf5ee]/75">
+                <p className="mt-4 max-w-xl text-bg/75">
                   Statt Standard-Plan: eine Methode, die zu deinem Alltag und deinen Hormonen passt. Packen wir
                   es gemeinsam an der Wurzel an.
                 </p>
@@ -74,11 +74,11 @@ export function PainPoints() {
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-lime px-7 text-lg font-bold text-[#1c1410] transition-all duration-150 active:scale-[0.98] [@media(hover:hover)]:hover:-translate-y-0.5 md:w-auto"
+                  className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-bg px-7 text-lg font-bold text-ink transition-all duration-150 active:scale-[0.98] [@media(hover:hover)]:hover:-translate-y-0.5 md:w-auto"
                 >
                   <Phone className="size-5" aria-hidden /> Clarity Call buchen
                 </a>
-                <p className="mt-3 text-center text-xs text-[#faf5ee]/60">40 Min per Anruf · unverbindlich</p>
+                <p className="mt-3 text-center text-xs text-bg/60">40 Min per Anruf · unverbindlich</p>
               </div>
             </div>
           </div>

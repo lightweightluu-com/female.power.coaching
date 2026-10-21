@@ -7,8 +7,8 @@ import { fileURLToPath } from 'node:url';
 // App-Name und Farben hier anpassen – sie landen im Web-App-Manifest.
 const APP_NAME = 'Ronja – Female Power Coaching';
 const APP_SHORT_NAME = 'Female Power';
-const THEME_COLOR = '#1c1410';
-const BACKGROUND_COLOR = '#faf5ee';
+const THEME_COLOR = '#2b1317';
+const BACKGROUND_COLOR = '#fbebe7';
 
 export default defineConfig({
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
