@@ -1,11 +1,12 @@
 import { ArrowRight } from 'lucide-react';
+import { CountUp } from '@/components/CountUp';
 import { Reveal } from '@/components/Reveal';
 import { SectionHeading } from '@/components/SectionHeading';
 
 const rows = [
-  { label: 'Körpergewicht', from: '66 kg', to: '61,1 kg' },
-  { label: 'Taillenumfang', from: '86 cm', to: '81 cm' },
-  { label: 'Bauchumfang', from: '93 cm', to: '88 cm' }
+  { label: 'Körpergewicht', from: 66, to: 61.1, decimals: 1, unit: 'kg' },
+  { label: 'Taillenumfang', from: 86, to: 81, decimals: 0, unit: 'cm' },
+  { label: 'Bauchumfang', from: 93, to: 88, decimals: 0, unit: 'cm' }
 ];
 
 const before = ['Störendes Rumpffett', 'Fehlende Motivation', 'Hohes Stresspensum', 'Verspannungen & Müdigkeit'];
@@ -37,9 +38,10 @@ export function Proof() {
                   {rows.map((r) => (
                     <tr key={r.label} className="border-t border-line">
                       <th scope="row" className="py-4 pr-2 text-sm font-medium sm:text-base">{r.label}</th>
-                      <td className="py-4 text-right tabular-nums text-muted line-through decoration-muted/50">{r.from}</td>
+                      <td className="py-4 text-right tabular-nums text-muted line-through decoration-muted/50">{String(r.from).replace('.', ',')} {r.unit}</td>
                       <td className="w-8 py-4 text-center text-muted"><ArrowRight className="mx-auto size-4" aria-label="auf" /></td>
-                      <td className="py-4 text-right font-display text-xl font-semibold tabular-nums sm:text-2xl">{r.to}</td>
+                      <td className="py-4 text-right font-display text-xl font-semibold tabular-nums sm:text-2xl"><CountUp from={r.from} to={r.to} decimals={r.decimals} /> {r.unit}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

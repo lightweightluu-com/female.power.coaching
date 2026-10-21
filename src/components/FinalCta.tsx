@@ -1,4 +1,5 @@
 import { Phone } from 'lucide-react';
+import { MagneticLink } from '@/components/MagneticLink';
 import { Reveal } from '@/components/Reveal';
 import { BOOKING_URL, HERO_IMAGE } from '@/lib/config';
 
@@ -26,14 +27,14 @@ export function FinalCta() {
           <p className="mt-5 text-lg leading-snug sm:text-xl">
             Wir schauen gemeinsam, wie dein individueller Weg aussehen kann.
           </p>
-          <a
+          <MagneticLink
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#2b1317] px-8 text-lg font-bold text-[#fbebe7] transition-all duration-150 active:scale-[0.98] sm:w-auto [@media(hover:hover)]:hover:-translate-y-0.5"
+            className="mt-8 inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#2b1317] px-8 text-lg font-bold text-[#fbebe7] transition-colors duration-150 active:scale-[0.98] sm:w-auto"
           >
             <Phone className="size-5" aria-hidden /> Kostenlosen Clarity Call buchen
-          </a>
+          </MagneticLink>
           <p className="mt-3 text-sm">40 Min per Anruf · unverbindlich</p>
         </Reveal>
       </div>

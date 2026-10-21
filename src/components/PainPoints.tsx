@@ -1,3 +1,5 @@
+import { useRef, type PointerEvent } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
 import { BOOKING_URL } from '@/lib/config';
@@ -25,6 +27,50 @@ const pains = [
   }
 ];
 
+function PainItem({ index, title, text }: { index: number; title: string; text: string }) {
+  const ref = useRef<HTMLLIElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 90%', 'start 55%'] });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+  const x = useTransform(scrollYProgress, [0, 1], [-12, 0]);
+  return (
+    <motion.li
+      ref={ref}
+      style={reduce ? undefined : { opacity, x }}
+      className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-line py-7 sm:grid-cols-[3.5rem_1fr] sm:py-9"
+    >
+      <span aria-hidden className="font-display text-2xl tabular-nums text-muted sm:text-3xl">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <div>
+        <h3 className="font-display text-2xl font-semibold leading-snug sm:text-3xl">{title}</h3>
+        <p className="mt-2 max-w-xl leading-relaxed text-muted">{text}</p>
+      </div>
+    </motion.li>
+  );
+}
+
+function SpotlightPanel({ children }: { children: React.ReactNode }) {
+  const onMove = (e: PointerEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+  };
+  return (
+    <div
+      onPointerMove={onMove}
+      className="surface-dark group relative overflow-hidden rounded-3xl bg-ink p-8 text-bg sm:p-12"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: 'radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(211,168,156,0.22), transparent 70%)' }}
+      />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
 export function PainPoints() {
   return (
     <section id="kennst-du-das" aria-labelledby="pain-title" className="px-5 py-20 sm:py-28">
@@ -42,22 +88,12 @@ export function PainPoints() {
 
         <ol className="border-t border-line">
           {pains.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.05}>
-              <li className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-line py-7 sm:grid-cols-[3.5rem_1fr] sm:py-9">
-                <span aria-hidden className="font-display text-2xl tabular-nums text-muted sm:text-3xl">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className="font-display text-2xl font-semibold leading-snug sm:text-3xl">{p.title}</h3>
-                  <p className="mt-2 max-w-xl leading-relaxed text-muted">{p.text}</p>
-                </div>
-              </li>
-            </Reveal>
+            <PainItem key={p.title} index={i} title={p.title} text={p.text} />
           ))}
         </ol>
 
         <Reveal className="lg:col-span-2">
-          <div className="relative overflow-hidden rounded-3xl bg-ink p-8 text-bg sm:p-12">
+          <SpotlightPanel>
             <div className="grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.14em] text-bg/70">Die gute Nachricht</p>
@@ -81,7 +117,7 @@ export function PainPoints() {
                 <p className="mt-3 text-center text-xs text-bg/60">40 Min per Anruf · unverbindlich</p>
               </div>
             </div>
-          </div>
+          </SpotlightPanel>
         </Reveal>
       </div>
     </section>

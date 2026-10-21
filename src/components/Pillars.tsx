@@ -1,5 +1,5 @@
 import { Reveal } from '@/components/Reveal';
-import { SectionHeading } from '@/components/SectionHeading';
+import { TextReveal } from '@/components/TextReveal';
 
 const pillars = [
   {
@@ -26,9 +26,14 @@ export function Pillars() {
   return (
     <section id="coaching" aria-labelledby="coaching-title" className="px-5 pb-20 sm:pb-28">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="coaching-title" eyebrow="Female Power Coaching">
-          Kein Standard-Plan. Ein Fahrplan, der zu dir und deinen Hormonen passt.
-        </SectionHeading>
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Female Power Coaching</p>
+          <TextReveal
+            id="coaching-title"
+            text="Kein Standard-Plan. Ein Fahrplan, der zu dir und deinen Hormonen passt."
+            className="mt-3 font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl"
+          />
+        </div>
 
         <Reveal delay={0.05}>
           <ul className="mt-6 flex flex-wrap gap-2">
