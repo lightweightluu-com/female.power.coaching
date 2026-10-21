@@ -3,6 +3,13 @@ import { Button } from '@/components/ui/button';
 import { BOOKING_URL } from '@/lib/config';
 import { cn } from '@/lib/utils';
 
+const links = [
+  { href: '#ueber-ronja', label: 'Über Ronja' },
+  { href: '#ergebnisse', label: 'Ergebnisse' },
+  { href: '#ablauf', label: 'Ablauf' },
+  { href: '#faq', label: 'FAQ' }
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
@@ -25,6 +32,11 @@ export function Navbar() {
           Female <span className="italic">Power</span> Coaching
         </a>
         <div className="flex items-center gap-6">
+          {scrolled && links.map((l) => (
+            <a key={l.href} href={l.href} className="hidden min-h-11 items-center text-sm font-semibold underline-offset-4 hover:underline lg:flex">
+              {l.label}
+            </a>
+          ))}
           <Button asChild size="sm" className="hidden min-h-11 sm:inline-flex">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               Clarity Call buchen

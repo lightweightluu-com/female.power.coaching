@@ -3,6 +3,12 @@ import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { Results } from '@/components/Results';
 import { PainPoints } from '@/components/PainPoints';
+import { Pillars } from '@/components/Pillars';
+import { About } from '@/components/About';
+import { Proof } from '@/components/Proof';
+import { Steps } from '@/components/Steps';
+import { Faq } from '@/components/Faq';
+import { FinalCta } from '@/components/FinalCta';
 import { StickyCta } from '@/components/StickyCta';
 import { Footer } from '@/components/Footer';
 
@@ -20,6 +26,12 @@ export default function App() {
         <Hero />
         <Results />
         <PainPoints />
+        <Pillars />
+        <About />
+        <Proof />
+        <Steps />
+        <Faq />
+        <FinalCta />
       </main>
       <Footer />
       <StickyCta />
