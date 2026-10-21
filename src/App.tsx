@@ -1,6 +1,7 @@
 import { MotionConfig } from 'framer-motion';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
+import { Marquee } from '@/components/Marquee';
 import { Results } from '@/components/Results';
 import { PainPoints } from '@/components/PainPoints';
 import { Pillars } from '@/components/Pillars';
@@ -25,6 +26,7 @@ export default function App() {
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
         <Results />
+        <Marquee />
         <PainPoints />
         <Pillars />
         <About />

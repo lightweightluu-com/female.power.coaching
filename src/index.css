@@ -75,3 +75,14 @@ body {
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes pop-in { from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+
+/* Fokus-Ring auf dunklen Flächen (Ring in --ink wäre dort unsichtbar) */
+.surface-dark :focus-visible { outline-color: #fbebe7; }
+
+/* Marquee: Endlos-Bewegung ist der einzige lineare Verlauf */
+.marquee-track { animation: marquee 38s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; }
+}
