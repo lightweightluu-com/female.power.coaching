@@ -28,8 +28,11 @@ export function Navbar() {
       )}
     >
       <nav aria-label="Hauptnavigation" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <a href="#top" className="font-display text-lg font-semibold tracking-tight">
-          Female <span className="italic">Power</span> Coaching
+        <a href="#top" className="flex min-h-11 items-center gap-2.5 font-display text-lg font-semibold tracking-tight">
+          <img src="/images/logo.webp" alt="" width={40} height={40} className="size-10 rounded-[0.7rem]" />
+          <span>
+            Female <span className="italic">Power</span> Coaching
+          </span>
         </a>
         <div className="flex items-center gap-6">
           {scrolled && links.map((l) => (
