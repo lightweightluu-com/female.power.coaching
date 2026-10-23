@@ -1,17 +1,25 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { fileURLToPath } from 'node:url';
 
 // App-Name und Farben hier anpassen – sie landen im Web-App-Manifest.
-const APP_NAME = 'Neue App';
-const APP_SHORT_NAME = 'App';
-const THEME_COLOR = '#14532d';
-const BACKGROUND_COLOR = '#f7f5ef';
+const APP_NAME = 'Ronja – Female Power Coaching';
+const APP_SHORT_NAME = 'Female Power';
+const THEME_COLOR = '#2b1317';
+const BACKGROUND_COLOR = '#fbebe7';
 
 export default defineConfig({
+  // Lokale Entwicklung: API und Bilder kommen vom Worker (wrangler dev, Port 8787).
+  server: { proxy: { '/api': 'http://localhost:8787', '/img': 'http://localhost:8787' } },
+  resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   plugins: [
+    react(),
+    tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico', 'favicon-32.png', 'favicon-48.png', 'apple-touch-icon.png'],
       manifest: {
         name: APP_NAME,
         short_name: APP_SHORT_NAME,
@@ -29,6 +37,7 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api\//, /^\/img\//],
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff2}']
       }
     })

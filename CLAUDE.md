@@ -15,8 +15,10 @@ Jeder Push auf `main` wird automatisch als PWA auf
 ## Stack
 - Vite + `vite-plugin-pwa` (Manifest + Service Worker, `autoUpdate`).
 - Build-Output muss in `dist/` landen.
-- Kein Backend: alles läuft statisch. Wird ein Backend nötig, zuerst fragen
-  (Optionen: Worker-Code im selben Projekt, Supabase).
+- Mini-Backend nur für die Erfahrungsberichte: Cloudflare Worker (`worker/index.ts`)
+  mit Workers KV, gratis und ohne Zahlungsmethode. Admin-Seite unter `/admin`.
+  Weitere Backend-Funktionen zuerst abstimmen. R2 und D1 sind im Konto (noch) nicht
+  nutzbar (R2 nicht aktiviert, Token ohne D1-Recht).
 - SPA-Routing ist aktiv (`not_found_handling: single-page-application`).
 - Frameworks (React, Svelte, …) sind erlaubt, wenn das Projekt es braucht –
   `vite-plugin-pwa` und den `dist/`-Output beibehalten.
@@ -27,6 +29,15 @@ Jeder Push auf `main` wird automatisch als PWA auf
 3. Icons in `public/icons/` (192, 512, maskable 512) und `public/apple-touch-icon.png`, `public/favicon.svg` ersetzen.
 4. `name` in `package.json` auf den Repo-Namen setzen.
 5. Nach dem ersten `npm install` die `package-lock.json` mit committen.
+
+## Erfahrungsberichte und Admin
+- Öffentlich: `GET /api/testimonials`, Bilder unter `/img/<id>/<before|after>`.
+- Admin: `/admin`, Login mit Passwort. In `deploy.yml` steht nur der SHA-256-Hash
+  (`ADMIN_HASH`), nie das Passwort. Neues Passwort: `node scripts/admin-hash.mjs "<passwort>"`
+  und den Hash in `deploy.yml` eintragen.
+- Veröffentlicht wird nur mit Einwilligung (Pflichtfeld) und beiden Fotos.
+- Lokal testen: `npm run build`, dann `npx wrangler dev --local` mit einer
+  lokalen `wrangler.jsonc` (gitignored; `main`, `assets` mit `run_worker_first`, KV `DB`, `ADMIN_HASH`).
 
 ## Qualitätsregeln
 - Vor jedem Push auf `main`: `npm run build` muss fehlerfrei durchlaufen.
